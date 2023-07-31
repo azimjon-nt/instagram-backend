@@ -6,16 +6,27 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Put,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
+import { RolesGuard } from 'src/guards/roles.guards';
+import { JwtAuthGuard } from '../guards/jwt-auth-guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @ApiOperation({
+    summary: 'We can create users',
+  })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }

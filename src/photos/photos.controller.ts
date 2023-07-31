@@ -6,13 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PhotosService } from './photos.service';
 import { CreatePhotoDto } from './dto/create-photo.dto';
 import { UpdatePhotoDto } from './dto/update-photo.dto';
 import { Photo } from './models/photo.model';
+import { JwtAuthGuard } from 'src/guards/jwt-auth-guard';
 
 @Controller('photo')
+@UseGuards(JwtAuthGuard)
 export class PhotosController {
   constructor(private readonly photosService: PhotosService) {}
 

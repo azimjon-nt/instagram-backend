@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateUserDto {
+export class RegisterAuthDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
@@ -22,7 +22,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty({
     title: 'password',
-    description: 'minimuim 8 characters password',
+    description: 'minimum 8 characters password',
     example: '88888888',
   })
   password: string;

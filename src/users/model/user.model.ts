@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   DataType,
@@ -7,7 +8,9 @@ import {
   BelongsToMany,
 } from 'sequelize-typescript';
 import { Photo } from 'src/photos/models/photo.model';
-import { UserPhoto } from 'src/photos/models/userPhoto.model';
+import { UserPhoto } from 'src/photos/models/user-photo.model';
+import { Role } from 'src/roles/models/role.model';
+import { UserRoles } from 'src/roles/models/user-role.model';
 
 interface userAttrs {
   id: string;
@@ -24,6 +27,10 @@ export class User extends Model<User, userAttrs> {
   })
   id: string;
 
+  @ApiProperty({
+    title: 'name',
+    example: 'test_1',
+  })
   @Column({
     type: DataType.STRING,
   })
@@ -42,4 +49,7 @@ export class User extends Model<User, userAttrs> {
   // photo modeli Many to Many relationship qilish uchun
   @BelongsToMany(() => Photo, () => UserPhoto)
   photos: Photo[];
+
+  @BelongsToMany(() => Role, () => UserRoles)
+  roles: Role[];
 }

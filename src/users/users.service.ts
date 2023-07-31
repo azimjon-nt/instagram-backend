@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './model/user.model';
-import { UserPhoto } from 'src/photos/models/userPhoto.model';
+import { UserPhoto } from 'src/photos/models/user-photo.model';
 
 @Injectable()
 export class UsersService {
@@ -40,6 +40,20 @@ export class UsersService {
         through: { attributes: [] },
       },
     });
+  }
+
+  async getUserByUsername(username: string): Promise<User> {
+    const user = await this.userRepo.findOne({
+      where: { username },
+      include: {
+        all: true,
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'UserPhoto'],
+        },
+        through: { attributes: [] },
+      },
+    });
+    return user;
   }
 
   async update(
